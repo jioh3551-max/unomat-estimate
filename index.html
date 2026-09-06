@@ -2465,6 +2465,29 @@ ${benefitGuide}
       setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
 
+    function withTimeout(promise, ms, message) {
+      let timer;
+      const timeout = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error(message)), ms);
+      });
+      return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+    }
+
+    function setButtonBusy(button, busy, timeoutMs = 45000) {
+      if (!button) return;
+      button.disabled = busy;
+      if (button._busyTimer) {
+        clearTimeout(button._busyTimer);
+        button._busyTimer = null;
+      }
+      if (busy) {
+        button._busyTimer = setTimeout(() => {
+          button.disabled = false;
+          button._busyTimer = null;
+        }, timeoutMs);
+      }
+    }
+
     function getInlineStyleText() {
       return Array.from(document.styleSheets).map((sheet) => {
         try {
@@ -2654,14 +2677,20 @@ ${benefitGuide}
 
     async function copyQuoteImage() {
       renderAll();
-      $("copyImageBtn").disabled = true;
+      const copyButton = $("copyImageBtn");
+      setButtonBusy(copyButton, true);
       setStatus("견적서 이미지를 만드는 중입니다...");
       const filename = `우노매트_견적서_${dateText($("quoteDate").value) || "image"}.png`;
-      const blobPromise = renderQuotePngBlob();
+      let blob = null;
 
       try {
+        blob = await withTimeout(renderQuotePngBlob(), 45000, "PNG 이미지 생성 시간이 초과되었습니다.");
         if (navigator.clipboard && window.ClipboardItem) {
-          await navigator.clipboard.write([new ClipboardItem({ "image/png": blobPromise })]);
+          await withTimeout(
+            navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]),
+            15000,
+            "브라우저 이미지 복사가 응답하지 않습니다."
+          );
           setStatus("견적서 이미지를 복사했습니다. 카톡/문자에 붙여넣을 수 있습니다.", 6000);
           return;
         }
@@ -2670,7 +2699,7 @@ ${benefitGuide}
       }
 
       try {
-        const blob = await blobPromise;
+        if (!blob) blob = await withTimeout(renderQuotePngBlob(), 45000, "PNG 이미지 생성 시간이 초과되었습니다.");
         if (await shareImageBlob(blob, filename)) {
           setStatus("이미지 공유창을 열었습니다.", 6000);
         } else if (isMobileDevice() && openMobileImageWindow(null, blob, filename)) {
@@ -2683,7 +2712,7 @@ ${benefitGuide}
         console.error(error);
         setStatus(`이미지 생성 실패: ${error?.message || "다시 시도해주세요."}`, 6000);
       } finally {
-        $("copyImageBtn").disabled = false;
+        setButtonBusy(copyButton, false);
       }
     }
 
