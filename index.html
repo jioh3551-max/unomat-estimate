@@ -1,0 +1,2804 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>우노매트 견적서 템플릿</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --text: #364150;
+      --muted: #6f7885;
+      --line: #dde2e8;
+      --soft: #f5f6f8;
+      --brand: #ff6817;
+      --brand-soft: #fff0e8;
+      --panel: #ffffff;
+    }
+
+    html {
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef0f3;
+      color: var(--text);
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 380px minmax(0, 1fr);
+      gap: 22px;
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .editor, .quote {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 36px rgba(15, 23, 42, .07);
+    }
+    .preview-shell { min-width:0; }
+    .mobile-only { display:none; }
+
+    .editor {
+      position: sticky;
+      top: 22px;
+      align-self: start;
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    h1, h2, p { margin: 0; }
+
+    .editor h1 {
+      color: var(--ink);
+      font-size: 21px;
+      margin-bottom: 6px;
+    }
+
+    .desc {
+      color: #6f7885;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .edit-section {
+      border-top: 1px solid var(--line);
+      margin-top: 15px;
+      padding-top: 15px;
+    }
+
+    .edit-section h2 {
+      color: var(--ink);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #596575;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid #d7dde5;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      padding: 9px 10px;
+    }
+
+    .plan-scale-control {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid #dde2e8;
+      border-radius: 6px;
+      background: #f8fafc;
+    }
+
+    .plan-scale-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      color: #596575;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .plan-scale-head output {
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    #planImageScale {
+      padding: 0;
+      accent-color: #ff6817;
+    }
+
+    textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .mode-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .mode-btn {
+      background: #fff0e8;
+      color: var(--ink);
+    }
+
+    .mode-btn.active {
+      background: #111c2c;
+      color: #fff;
+    }
+
+    .room-item {
+      display: grid;
+      grid-template-columns: 1fr 90px auto;
+      gap: 8px;
+      align-items: end;
+      margin-top: 8px;
+    }
+
+    .room-item button {
+      padding: 9px 10px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid #dde2e8;
+      border-radius: 8px;
+      background: #f8fafc;
+      flex-wrap: wrap;
+    }
+
+    .check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .check-label input {
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      accent-color: var(--brand);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+
+    .hint {
+      color: #6f7885;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 6px;
+      background: var(--brand);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 900;
+      padding: 10px 13px;
+    }
+
+    button.secondary {
+      background: #fff0e8;
+      color: #111827;
+    }
+
+    .status {
+      min-height: 18px;
+      margin-top: 10px;
+      color: #6f7885;
+      font-size: 12px;
+    }
+
+    .quote {
+      width: min(100%, 920px);
+      min-height: 1280px;
+      margin: 0 auto;
+      border-radius: 0;
+      overflow: hidden;
+      -webkit-text-size-adjust:none;
+      text-size-adjust:none;
+    }
+
+    .quote-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 52px 62px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .quote-title {
+      color: var(--ink);
+      font-size: 38px;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .logo-box {
+      min-width: 142px;
+      border: 1px solid #222;
+      color: #444;
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 950;
+      letter-spacing: 0;
+      line-height: 1;
+    }
+
+    .quote-section {
+      padding: 38px 62px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-label {
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .customer-name {
+      margin-bottom: 22px;
+      color: var(--ink);
+      font-size: 21px;
+      font-weight: 950;
+    }
+
+    .info-list {
+      display: grid;
+      grid-template-columns: 106px minmax(0, 1fr);
+      row-gap: 10px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .info-list dt {
+      color: #7d8fa3;
+      font-weight: 900;
+    }
+
+    .info-list dd {
+      min-width: 0;
+      margin: 0;
+      color: #334155;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .image-section[hidden],
+    .room-estimate-section[hidden] { display: none; }
+
+    .plan-frame {
+      display: grid;
+      min-height: 260px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #dbe4ee;
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .plan-frame img {
+      display: block;
+      max-width: 100%;
+      max-height: 390px;
+      object-fit: contain;
+      transform-origin: center;
+      transition: transform .15s ease;
+    }
+
+    .estimate-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 16px;
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      padding: 14px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .estimate-table thead th {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .estimate-table thead span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .estimate-table tbody th {
+      width: 138px;
+      color: #8b9db0;
+      text-align: left;
+      font-weight: 900;
+    }
+
+    .estimate-table td {
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .room-estimate-table tbody th {
+      text-align: center;
+    }
+
+    .room-estimate-table tbody th span,
+    .room-estimate-table td span {
+      display: block;
+      margin-top: 4px;
+      color: #4d7088;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .room-estimate-table td strong {
+      display: block;
+      color: #183b55;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .room-estimate-table .room-total-row th,
+    .room-estimate-table .room-total-row td {
+      background: #f2f8fc;
+      color: #005383;
+      font-weight: 950;
+    }
+
+    .room-estimate-note {
+      margin: -6px 0 12px;
+      padding: 0 0 0 14px;
+      border: 0;
+      border-left: 2px solid rgba(0, 83, 131, .28);
+      background: transparent;
+      color: rgba(24, 59, 85, .64);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .discount-row td {
+      color: #635bff;
+    }
+
+    .sub-row th,
+    .sub-row td {
+      color: #94a3b8;
+      font-size: 14px;
+      padding-top: 4px;
+    }
+
+    .total-row th,
+    .total-row td {
+      border-bottom: 0;
+      background: var(--brand-soft);
+      color: #4338ca;
+      font-size: 20px;
+      font-weight: 950;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+
+    .total-row th {
+      border-radius: 12px 0 0 12px;
+      color: #312e81;
+      font-size: 17px;
+    }
+
+    .total-row td:last-child {
+      border-radius: 0 12px 12px 0;
+    }
+
+    .notice {
+      color: #91a1b4;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.75;
+    }
+
+    .notice-title {
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      gap: 34px;
+      padding: 24px 30px;
+      color: #95a3b4;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    /* Premium Unomat document skin */
+    .quote {
+      width: min(100%, 920px);
+      background:
+        linear-gradient(180deg, #ffffff 0, #ffffff 78%, #fbfcfb 100%);
+      border: 1px solid #ccd6d0;
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(18, 25, 28, .14);
+    }
+
+    .quote-header {
+      align-items: stretch;
+      padding: 0;
+      border-bottom: 0;
+      background: #17211f;
+      color: #fff;
+    }
+
+    .quote-header::before {
+      content: "";
+      width: 12px;
+      background: linear-gradient(180deg, #b89b5e, #1f7a6c);
+    }
+
+    .quote-title {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 146px;
+      padding: 34px 46px;
+      color: #fff;
+      font-size: 34px;
+      font-weight: 950;
+    }
+
+    .quote-title::before {
+      content: "UNOMAT ESTIMATE";
+      margin-bottom: 11px;
+      color: #b9a36f;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .logo-box {
+      flex: 0 0 214px;
+      display: grid;
+      align-content: center;
+      min-width: 214px;
+      border: 0;
+      border-left: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      padding: 34px 32px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .logo-box::after {
+      content: "Premium floor mat";
+      display: block;
+      margin-top: 10px;
+      color: #a9b9b4;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .quote-section {
+      margin: 0 54px;
+      padding: 34px 0;
+      border-bottom: 1px solid #dfe7e3;
+    }
+
+    .customer-section {
+      margin-top: 44px;
+      padding: 30px 34px;
+      border: 1px solid #d8e4df;
+      border-left: 6px solid #1f7a6c;
+      border-radius: 14px;
+      background: #f8fbf9;
+    }
+
+    .section-label,
+    .notice-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      color: #1f7a6c;
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .section-label::before,
+    .notice-title::before {
+      content: "";
+      width: 28px;
+      height: 2px;
+      background: #b89b5e;
+    }
+
+    .customer-name {
+      margin-bottom: 20px;
+      color: #101817;
+      font-size: 24px;
+      font-weight: 950;
+    }
+
+    .info-list {
+      grid-template-columns: 110px minmax(0, 1fr);
+      row-gap: 12px;
+      font-size: 17px;
+    }
+
+    .info-list dt {
+      color: #74867e;
+      font-weight: 950;
+    }
+
+    .info-list dd {
+      color: #243331;
+      font-weight: 800;
+    }
+
+    .plan-frame {
+      border: 1px solid #d7e1dd;
+      border-radius: 14px;
+      background:
+        linear-gradient(45deg, rgba(31,122,108,.045) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(31,122,108,.045) 25%, transparent 25%),
+        #fff;
+      background-size: 22px 22px;
+    }
+
+    .estimate-table {
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1px solid #d8e4df;
+      border-radius: 14px;
+      background: #fff;
+      font-size: 15px;
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      border-bottom: 1px solid #e4ebe8;
+    }
+
+    .estimate-table thead th {
+      background: #17211f;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .estimate-table thead span {
+      color: #a9b9b4;
+      font-size: 12px;
+    }
+
+    .estimate-table tbody th {
+      background: #f8fbf9;
+      color: #6f817a;
+    }
+
+    .estimate-table td {
+      color: #253432;
+    }
+
+    .discount-row td {
+      color: #1f7a6c;
+      font-weight: 900;
+    }
+
+    .total-row th,
+    .total-row td {
+      background: #1f7a6c;
+      color: #fff;
+      font-size: 19px;
+      box-shadow: inset 0 4px 0 rgba(184,155,94,.65);
+    }
+
+    .total-row th {
+      border-radius: 0;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .total-row td:last-child {
+      border-radius: 0;
+    }
+
+    .notice {
+      padding: 22px 24px;
+      border: 1px solid #dde7e3;
+      border-radius: 14px;
+      background: #f8fbf9;
+      color: #6e7f79;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .footer {
+      justify-content: center;
+      padding: 28px 30px 34px;
+      color: #17211f;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    /* Unomat cream-brown estimate skin */
+    .quote {
+      position: relative;
+      width: min(100%, 920px);
+      background:
+        linear-gradient(145deg, rgba(187, 154, 125, .12), transparent 34%),
+        linear-gradient(180deg, #f8fafc 0%, #fffdf8 45%, #f7eee2 100%);
+      border: 1px solid #d7dde5;
+      border-radius: 0;
+      box-shadow: 0 18px 52px rgba(47, 37, 25, .16);
+      overflow: hidden;
+    }
+
+    .quote::before {
+      content: "U";
+      position: absolute;
+      top: -42px;
+      right: 26px;
+      color: rgba(190, 145, 78, .10);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 210px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .quote::after {
+      content: "";
+      position: absolute;
+      right: 58px;
+      bottom: 98px;
+      width: 170px;
+      height: 170px;
+      opacity: .22;
+      background:
+        radial-gradient(ellipse at 70% 20%, transparent 45%, #be914e 46%, transparent 48%),
+        radial-gradient(ellipse at 30% 70%, transparent 45%, #be914e 46%, transparent 48%);
+      transform: rotate(-28deg);
+      pointer-events: none;
+    }
+
+    .quote > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-header {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      align-items: end;
+      gap: 34px;
+      min-height: 214px;
+      padding: 46px 58px 42px;
+      background: transparent;
+      color: #1a2735;
+    }
+
+    .quote-header::before {
+      content: "";
+      display: none;
+    }
+
+    .logo-box {
+      grid-column: 1;
+      grid-row: 1;
+      min-width: 0;
+      border: 0;
+      border-left: 0;
+      background: transparent;
+      color: #005383;
+      padding: 0;
+      text-align: left;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.05;
+    }
+
+    .logo-box img {
+      display: block;
+      width: 248px;
+      max-width: 100%;
+      height: auto;
+      margin: 0;
+    }
+
+    .quote-head-copy {
+      grid-column: 2;
+      display: grid;
+      justify-items: start;
+      gap: 12px;
+    }
+
+    .quote-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 16px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 999px;
+      background: rgba(255, 104, 23, .18);
+      color: #ffb27f;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .quote-subtitle {
+      color: rgba(255, 255, 255, .72);
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .brand-main {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .brand-main b {
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .brand-line {
+      display: block;
+      width: 220px;
+      height: 1px;
+      margin: 16px auto 0;
+      background: #005383;
+      opacity: .65;
+    }
+
+    .logo-box::after {
+      content: "";
+      display: none;
+    }
+
+    .quote-title {
+      grid-column: auto;
+      grid-row: auto;
+      display: block;
+      min-height: auto;
+      padding: 0;
+      color: #151515;
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+      font-size: 38px;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .quote-title::before {
+      content: "";
+      display: none;
+    }
+
+    .quote-title::after {
+      content: "";
+      display: block;
+      width: 72px;
+      height: 5px;
+      margin-top: 14px;
+      border-radius: 999px;
+      background: #ff6817;
+    }
+
+    .quote-section {
+      margin: 0 54px;
+      padding: 30px 0;
+      border-bottom: 0;
+    }
+
+    .customer-section {
+      margin: 6px 54px 28px;
+      padding: 22px 28px;
+      border: 1px solid #dec59f;
+      border-left: 1px solid #dec59f;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .76);
+      box-shadow: 0 8px 22px rgba(89, 68, 42, .10);
+    }
+
+    .customer-section .section-label,
+    .customer-section .customer-name {
+      display: none;
+    }
+
+    .customer-section .customer-name {
+      display: flex;
+      align-items: center;
+      min-height: 58px;
+      margin: 0;
+      border-bottom: 1px solid #dde2e8;
+      color: #222;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .customer-section .customer-name::before {
+      content: "고객명";
+      width: 118px;
+      color: #181818;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .customer-section .customer-name::after {
+      content: "";
+      order: -1;
+      width: 22px;
+      height: 22px;
+      margin-right: 13px;
+      border: 1.5px solid #be914e;
+      border-radius: 50%;
+      background: rgba(190, 145, 78, .05);
+      flex: 0 0 auto;
+    }
+
+    .section-label,
+    .notice-title {
+      gap: 12px;
+      margin-bottom: 18px;
+      color: #191919;
+      font-family: "Noto Serif KR", "Nanum Myeongjo", serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .section-label::before,
+    .notice-title::before {
+      width: 26px;
+      height: 1px;
+      background: #be914e;
+    }
+
+    .info-list {
+      grid-template-columns: 96px minmax(0, 1fr) 96px minmax(0, 1fr);
+      column-gap: 18px;
+      row-gap: 0;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .info-list dt,
+    .info-list dd {
+      min-height: 56px;
+      border-bottom: 1px solid #dde2e8;
+    }
+
+    .info-list dt {
+      display: flex;
+      align-items: center;
+    }
+
+    .info-list dd {
+      display: block;
+      padding: 15px 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: keep-all;
+    }
+
+    .info-list dt:nth-last-of-type(1),
+    .info-list dt:nth-last-of-type(2),
+    .info-list dd:nth-last-of-type(1),
+    .info-list dd:nth-last-of-type(2) {
+      border-bottom: 0;
+    }
+
+    .info-list dt {
+      color: #181818;
+      font-weight: 850;
+    }
+
+    .info-list dt::before {
+      content: "";
+      width: 22px;
+      height: 22px;
+      margin-right: 13px;
+      border: 1.5px solid #be914e;
+      border-radius: 50%;
+      background: rgba(190, 145, 78, .05);
+      flex: 0 0 auto;
+    }
+
+    .info-list dd {
+      color: #222;
+      font-weight: 700;
+    }
+
+    .plan-frame {
+      position: relative;
+      min-height: 315px;
+      border: 2px solid #dec59f;
+      border-radius: 0;
+      background: rgba(255, 255, 255, .66);
+      box-shadow: inset 0 0 0 8px rgba(255, 250, 241, .9);
+    }
+
+    .plan-frame::before,
+    .plan-frame::after {
+      content: "";
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-color: #dec59f;
+      pointer-events: none;
+    }
+
+    .plan-frame::before {
+      top: -2px;
+      left: -2px;
+      border-top: 8px double #dec59f;
+      border-left: 8px double #dec59f;
+    }
+
+    .plan-frame::after {
+      right: -2px;
+      bottom: -2px;
+      border-right: 8px double #dec59f;
+      border-bottom: 8px double #dec59f;
+    }
+
+    .plan-frame img {
+      max-height: 330px;
+      padding: 18px;
+    }
+
+    .estimate-table {
+      border: 1px solid #dec59f;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 8px 18px rgba(89, 68, 42, .07);
+      font-size: 15px;
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      padding: 13px 8px;
+      border-right: 1px solid #dde2e8;
+      border-bottom: 1px solid #dde2e8;
+    }
+
+    .estimate-table tr > *:last-child {
+      border-right: 0;
+    }
+
+    .estimate-table thead th {
+      background: rgba(252, 244, 231, .86);
+      color: #171717;
+      font-size: 15px;
+      font-weight: 850;
+    }
+
+    .estimate-table thead span {
+      color: #534b40;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .estimate-table tbody th {
+      background: rgba(250, 241, 226, .72);
+      color: #2c2924;
+      text-align: center;
+      font-weight: 850;
+    }
+
+    .estimate-table td {
+      color: #171717;
+      font-weight: 700;
+    }
+
+    .discount-row td {
+      color: #90622b;
+    }
+
+    .sub-row th,
+    .sub-row td {
+      color: #6c6254;
+      font-size: 14px;
+    }
+
+    .total-row th,
+    .total-row td {
+      background: linear-gradient(180deg, #fbf1df, #f4e2c5);
+      color: #7a4b15;
+      box-shadow: inset 0 1px 0 #dec59f;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .total-row th {
+      color: #7a4b15;
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      font-size: 18px;
+    }
+
+    .notice {
+      padding: 0 0 0 16px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: #242424;
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.9;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding: 26px 30px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.04) 25%, transparent 25%) 0 0 / 42px 42px,
+        linear-gradient(180deg, #1d2021, #111315);
+      color: #d0a96a;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    /* Unomat final estimate skin */
+    body {
+      background: #eef0f3;
+    }
+
+    .quote {
+      background:
+        linear-gradient(140deg, rgba(255, 104, 23, .08), transparent 34%),
+        linear-gradient(180deg, #f8fafc 0%, #ffffff 64%, #eef0f3 100%);
+      min-height: 0;
+      border: 1px solid #d7dde5;
+      box-shadow: 0 18px 50px rgba(17, 28, 44, .15);
+    }
+
+    .quote::before,
+    .quote::after {
+      display: none;
+    }
+
+    .quote-header {
+      background: #111c2c;
+      border-bottom: 1px solid #24324a;
+    }
+
+    .quote-header::before {
+      background: #ff6817;
+      opacity: .85;
+    }
+
+    .logo-box {
+      color: #fff;
+    }
+
+    .brand-line {
+      background: #ffb27f;
+      opacity: .55;
+    }
+
+    .quote-title {
+      color: #ffffff;
+    }
+
+    .quote-title::after {
+      color: #ffb27f;
+      opacity: .72;
+    }
+
+    .customer-section {
+      border: 1px solid #d7dde5;
+      background: rgba(255, 255, 255, .84);
+      box-shadow: 0 10px 26px rgba(90, 63, 39, .09);
+    }
+
+    .customer-section .customer-name {
+      border-bottom: 1px solid #dde2e8;
+      color: #111827;
+    }
+
+    .customer-section .customer-name::before {
+      color: #111827;
+    }
+
+    .customer-section .customer-name::after,
+    .info-list dt::before {
+      width: 30px;
+      height: 30px;
+      margin-right: 14px;
+      border: 0;
+      border-radius: 0;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 28px 28px;
+    }
+
+    .customer-section .customer-name::after {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 16c4.1 0 7-3.2 7-7s-2.9-7-7-7-7 3.2-7 7 2.9 7 7 7Zm-11 13c1.6-6 6-9 11-9s9.4 3 11 9' fill='none' stroke='%23ff6817' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt,
+    .info-list dd {
+      border-bottom: 1px solid #dde2e8;
+    }
+
+    .info-list dt {
+      color: #111827;
+    }
+
+    .info-list dd {
+      color: #364150;
+    }
+
+    .info-list dt:nth-of-type(1)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 16c4.1 0 7-3.2 7-7s-2.9-7-7-7-7 3.2-7 7 2.9 7 7 7Zm-11 13c1.6-6 6-9 11-9s9.4 3 11 9' fill='none' stroke='%23ff6817' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(2)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 6c4 7 9 12 16 16l-3 5c-10-3-16-9-19-19l6-2Zm0 0 3 5m10 11-5-3M23 5c2.5.9 4.1 2.6 5 5M20 10c1.3.5 2.2 1.4 2.7 2.7' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(3)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 29s10-8.5 10-17A10 10 0 1 0 6 12c0 8.5 10 17 10 17Z' fill='none' stroke='%23ff6817' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='16' cy='12' r='3.6' fill='none' stroke='%23ff6817' stroke-width='2.1'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(4)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m5 22 17-17 5 5-17 17-5-5Z' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m11 20 2 2m1-7 2 2m1-7 2 2m-9 12 2 2' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(5)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='5' y='7' width='22' height='20' rx='2.5' fill='none' stroke='%23ff6817' stroke-width='2'/%3E%3Cpath d='M10 4v6m12-6v6M5 13h22m6 5h.01M16 18h.01M22 18h.01M10 22h.01M16 22h.01' fill='none' stroke='%23ff6817' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(6)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 15 16 6l11 9v12H8V15' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M13 27v-8h6v8' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .info-list dt:nth-of-type(7)::before {
+      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m20 5 3 3-6 6 1 4-4-1-6 6-3-3 6-6-1-4 4 1 6-6Z' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m21 20 6 6m0-6-6 6' fill='none' stroke='%23ff6817' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .section-label,
+    .notice-title {
+      color: #111827;
+    }
+
+    .section-label::before,
+    .notice-title::before {
+      background: #ff6817;
+      opacity: .75;
+    }
+
+    .plan-frame {
+      border-color: #d7dde5;
+      background: #fff;
+      box-shadow: inset 0 0 0 8px #f8fafc;
+    }
+
+    .plan-frame::before,
+    .plan-frame::after {
+      border-color: #ff6817;
+      opacity: .35;
+    }
+
+    .plan-frame::before {
+      border-top-color: #ff6817;
+      border-left-color: #ff6817;
+    }
+
+    .plan-frame::after {
+      border-right-color: #ff6817;
+      border-bottom-color: #ff6817;
+    }
+
+    .estimate-table {
+      border-color: #d7dde5;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(90, 63, 39, .07);
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      border-right-color: #dde2e8;
+      border-bottom-color: #dde2e8;
+    }
+
+    .estimate-table thead th {
+      background: #f4f6f8;
+      color: #111827;
+    }
+
+    .estimate-table thead span,
+    .estimate-table tbody th,
+    .sub-row th,
+    .sub-row td {
+      color: #6f7885;
+    }
+
+    .estimate-table tbody th {
+      background: #f8fafc;
+    }
+
+    .estimate-table td {
+      color: #364150;
+    }
+
+    .discount-row td {
+      color: #ff6817;
+    }
+
+    .total-row th,
+    .total-row td {
+      background: #ff6817;
+      color: #fff;
+      box-shadow: none;
+    }
+
+    .total-row th {
+      color: #fff;
+    }
+
+    .notice {
+      color: #364150;
+    }
+
+    .footer {
+      background: #111c2c;
+      color: #fff;
+    }
+
+    /* Unomat editorial estimate layout */
+    .quote {
+      counter-reset: quote-section;
+      background:
+        radial-gradient(ellipse at -10% 38%, rgba(17, 28, 44, .055), transparent 360px),
+        radial-gradient(ellipse at 22% 67%, rgba(255, 104, 23, .035), transparent 300px),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 58%, #ffffff 100%);
+    }
+
+    .quote-header {
+      position: relative;
+      overflow: hidden;
+      grid-template-columns: 188px minmax(0, 1fr) 170px;
+      align-items: center;
+      gap: 18px;
+      min-height: 168px;
+      padding: 28px 32px;
+      background:
+        radial-gradient(circle at 4% 10%, rgba(255, 255, 255, .10), transparent 210px),
+        radial-gradient(ellipse at 88% 20%, rgba(255, 255, 255, .10), transparent 260px),
+        linear-gradient(135deg, #071827 0%, #10283d 58%, #0b1726 100%);
+    }
+
+    .quote-header::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      right: 52px;
+      top: -154px;
+      width: 320px;
+      height: 440px;
+      border-radius: 50% 42% 58% 48% / 36% 52% 48% 64%;
+      background:
+        radial-gradient(ellipse at 45% 48%, rgba(255, 255, 255, .18), rgba(255, 255, 255, .055) 50%, transparent 74%);
+      transform: rotate(21deg);
+      opacity: .58;
+      filter: blur(9px);
+      pointer-events: none;
+    }
+
+    .quote-header::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      right: -30px;
+      top: -130px;
+      width: 190px;
+      height: 390px;
+      border-radius: 58% 42% 54% 46% / 38% 58% 42% 62%;
+      background:
+        radial-gradient(ellipse at 50% 48%, rgba(255, 255, 255, .11), rgba(255, 255, 255, .035) 54%, transparent 76%);
+      transform: rotate(21deg);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    .quote-header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-box {
+      padding-right: 18px;
+      border-right: 1px solid rgba(255, 255, 255, .44);
+    }
+
+    .logo-box img {
+      width: 168px;
+    }
+
+    .quote-head-copy {
+      justify-items: start;
+      gap: 7px;
+      max-width: none;
+    }
+
+    .quote-kicker {
+      min-height: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, .72);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .quote-title {
+      color: #fff;
+      font-size: 28px;
+      line-height: 1.05;
+      max-width: none;
+      white-space: nowrap;
+    }
+
+    .title-accent {
+      color: #ff6817;
+    }
+
+    .quote-title::after {
+      display: none;
+    }
+
+    .quote-subtitle {
+      color: rgba(255, 255, 255, .86);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.45;
+    }
+
+    .quote-side {
+      display: grid;
+      justify-items: end;
+      gap: 20px;
+    }
+
+    .quote-size-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      width: 100%;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 104, 23, .86);
+      border-radius: 999px;
+      background: rgba(255, 104, 23, .16);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 900;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .quote-hand-img {
+      display: block;
+      width: 162px;
+      height: auto;
+      margin-right: -2px;
+      transform: rotate(-2deg);
+    }
+
+    .quote-section {
+      counter-increment: quote-section;
+      display: grid;
+      grid-template-columns: 182px minmax(0, 1fr);
+      gap: 24px;
+      margin: 0;
+      padding: 28px 44px;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .room-estimate-section[hidden] {
+      display: none;
+    }
+
+    .image-section[hidden] {
+      display: none;
+    }
+
+    .section-label,
+    .notice-title {
+      display: block;
+      margin: 0;
+      color: #111c2c;
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.18;
+      word-break: keep-all;
+    }
+
+    .section-label::before,
+    .notice-title::before {
+      content: counter(quote-section, decimal-leading-zero);
+      display: block;
+      width: auto;
+      height: auto;
+      margin: 0 0 9px;
+      background: transparent;
+      color: #ff6817;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1;
+      opacity: 1;
+    }
+
+    .section-label::after,
+    .notice-title::after {
+      content: "";
+      display: block;
+      width: 30px;
+      height: 2px;
+      margin-top: 14px;
+      background: #ff6817;
+    }
+
+    .image-section .section-label::after {
+      content: "정확한 시공을 위한 도면과 범위를 먼저 확인합니다.";
+      display: block;
+      width: auto;
+      height: auto;
+      margin-top: 12px;
+      background: transparent;
+      color: #6f7885;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.55;
+    }
+
+    .customer-section .section-label,
+    .customer-section .customer-name {
+      display: block;
+    }
+
+    .customer-section,
+    .estimate-table,
+    .notice {
+      border-color: #dfe5eb;
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 0 8px 18px rgba(17, 28, 44, .035);
+    }
+
+    .customer-section {
+      border: 0;
+      box-shadow: none;
+    }
+
+    .customer-section .customer-name,
+    .info-list,
+    .plan-frame,
+    .estimate-table,
+    .notice {
+      grid-column: 2;
+    }
+
+    .customer-section .customer-name {
+      display: none;
+    }
+
+    .info-list {
+      grid-template-columns: 104px minmax(0, 1fr) 104px minmax(0, 1fr);
+      column-gap: 18px;
+      row-gap: 0;
+      padding: 16px 22px;
+      border: 1px solid #e2e7ed;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 8px 18px rgba(17, 28, 44, .035);
+    }
+
+    .info-list dt:nth-of-type(3) {
+      grid-column: 1;
+    }
+
+    .info-list dd:nth-of-type(3) {
+      grid-column: 2 / -1;
+    }
+
+    .info-list dt,
+    .info-list dd {
+      min-height: 46px;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .info-list dt {
+      color: #111c2c;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .info-list dd {
+      display: flex;
+      align-items: center;
+      color: #223044;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .info-list dd:nth-of-type(5) {
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .estimate-table .discount-row td {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .plan-frame {
+      min-height: 388px;
+      border: 1px solid #e1e7ee;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(17, 28, 44, .035);
+    }
+
+    .plan-frame::before,
+    .plan-frame::after {
+      display: none;
+    }
+
+    .plan-frame img {
+      max-width: 100%;
+      max-height: 430px;
+      padding: 18px;
+      object-fit: contain;
+    }
+
+    .plan-frame img:not([src]) {
+      display: none;
+    }
+
+    .estimate-table {
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 13px;
+      border: 1px solid #e1e7ee;
+      box-shadow: 0 8px 18px rgba(17, 28, 44, .035);
+    }
+
+    .estimate-table thead th {
+      background: #f4f6f8;
+      color: #111c2c;
+      padding: 12px 10px;
+      border-color: #e1e7ee;
+    }
+
+    .estimate-table thead .product-basis {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 7px;
+      padding: 3px 8px;
+      border: 1px solid rgba(255, 104, 23, .18);
+      border-radius: 999px;
+      background: rgba(255, 104, 23, .08);
+      color: #ff6817;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .estimate-table thead .product-code,
+    .estimate-table thead .product-material {
+      display: block;
+      color: #111c2c;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .estimate-table thead .product-material {
+      margin-top: 2px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .estimate-table thead th > span:last-child {
+      display: block;
+      margin-top: 5px;
+      color: #7b8796;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .estimate-table tbody th {
+      background: #f5f7fa;
+      color: #536070;
+      font-weight: 600;
+    }
+
+    .estimate-table th,
+    .estimate-table td {
+      padding: 12px 10px;
+      border-color: #e3e8ee;
+    }
+
+    .estimate-table tbody td {
+      font-weight: 500;
+    }
+
+    .estimate-table tbody tr:nth-child(1) td,
+    .estimate-table tbody tr:nth-child(2) td {
+      font-weight: 600;
+    }
+
+    .estimate-table tbody tr:nth-child(3) td {
+      font-weight: 600;
+    }
+
+    .total-row th,
+    .total-row td {
+      background: #ff6817;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.25;
+      word-break: keep-all;
+    }
+
+    .notice {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 22px;
+      padding: 22px 24px;
+      border: 1px solid #dfe5eb;
+      border-radius: 8px;
+      color: #263445;
+      font-size: 13px;
+      font-weight: 450;
+      line-height: 1.7;
+    }
+
+    .notice-group {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .notice-group.promo {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px 18px;
+      padding: 15px 18px;
+      border: 1px solid rgba(255, 104, 23, .18);
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255, 104, 23, .09), rgba(255, 255, 255, .94));
+    }
+
+    .notice-heading {
+      grid-column: 1 / -1;
+      margin: 0 0 2px;
+      color: #ff6817;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .notice p {
+      margin: 0;
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .notice p::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #ff6817;
+      font-weight: 800;
+    }
+
+    .notice strong {
+      color: #111c2c;
+      font-weight: 700;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 26px;
+      margin-top: 0;
+      padding: 30px 50px;
+      background: linear-gradient(135deg, #081827, #111c2c);
+      color: #fff;
+      font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .footer::before {
+      content: "";
+      width: 130px;
+      height: 48px;
+      background: url("./unomat-logo-transparent.png") center / contain no-repeat;
+    }
+
+    .footer::after {
+      content: "SAFE FLOOR · BETTER LIFE";
+      color: rgba(255, 255, 255, .65);
+      font-size: 11px;
+    }
+
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; }
+      .editor { position: static; }
+    }
+
+    @media (max-width: 760px) {
+      .app { padding: 10px; }
+      .grid, .mode-row { grid-template-columns: 1fr; }
+      .mobile-only { display:inline-flex; }
+      .preview-shell { display:none; }
+      .preview-shell.mobile-open,
+      .preview-shell.capture-active {
+        display:block;
+      }
+      .preview-shell.mobile-open {
+        overflow:hidden;
+      }
+      .preview-shell.capture-active {
+        position:fixed;
+        left:-12000px;
+        top:0;
+        width:920px;
+        height:auto !important;
+        overflow:visible;
+      }
+      .quote {
+        width: 920px;
+        transform: scale(var(--mobile-preview-scale, .44));
+        transform-origin: top left;
+        margin-bottom: 0;
+      }
+      .preview-shell.capture-active .quote {
+        transform:none;
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .editor { display: none; }
+      .app {
+        display: block;
+        padding: 0;
+        max-width: none;
+      }
+      .quote {
+        width: 210mm;
+        min-height: 297mm;
+        border: 0;
+        box-shadow: none;
+      }
+      .quote-header { padding: 18mm 18mm 14mm; }
+      .quote-section { padding: 12mm 18mm; }
+      @page { size: A4 portrait; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside class="editor">
+      <h1>우노매트 견적서</h1>
+      <p class="desc">우노매트 대형 TPU+PU 매트 시공 기준으로 고객용 견적서와 카톡용 안내 문구를 함께 만듭니다.</p>
+
+      <section class="edit-section">
+        <h2>고객 정보</h2>
+        <div class="grid">
+          <div class="field">
+            <label for="customerName">고객명</label>
+            <input id="customerName" value="" />
+          </div>
+          <div class="field">
+            <label for="phone">연락처</label>
+            <input id="phone" value="" />
+          </div>
+          <div class="field full">
+            <label for="address">주소지</label>
+            <input id="address" value="" />
+          </div>
+          <div class="field">
+            <label for="pyeongType">평형타입</label>
+            <input id="pyeongType" value="" />
+          </div>
+          <div class="field">
+            <label for="quoteDate">견적일</label>
+            <input id="quoteDate" type="date" />
+          </div>
+          <div class="field">
+            <label for="extension">확장여부</label>
+            <select id="extension">
+              <option value="베란다 확장">베란다 확장</option>
+              <option value="베란다 비확장">베란다 비확장</option>
+              <option value="">표시 안 함</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="areasPreset">시공공간</label>
+            <select id="areasPreset">
+              <option value="">선택하세요</option>
+              <option value="거실">거실</option>
+              <option value="거실, 복도">거실, 복도</option>
+              <option value="거실, 복도, 주방">거실, 복도, 주방</option>
+              <option value="거실, 복도, 아일랜드">거실, 복도, 아일랜드</option>
+              <option value="거실, 방">거실, 방</option>
+              <option value="거실, 복도, 방">거실, 복도, 방</option>
+              <option value="거실, 복도, 아일랜드, 방">거실, 복도, 아일랜드, 방</option>
+              <option value="거실, 복도, 주방, 방">거실, 복도, 주방, 방</option>
+              <option value="직접입력">직접입력</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="areasCustom">시공공간 직접입력</label>
+            <input id="areasCustom" placeholder="예: 거실, 복도, 펜트리" />
+          </div>
+        </div>
+      </section>
+
+      <section class="edit-section">
+        <h2>장수 입력</h2>
+        <div class="grid">
+          <div class="field">
+            <label for="qty1200">1200 장수</label>
+            <input id="qty1200" type="number" min="0" step="0.5" value="" />
+            <p id="normalCouponHint" class="hint">1200×1200 대형 매트 장수를 입력합니다.</p>
+          </div>
+          <div class="field">
+            <label for="qty600">1300 장수</label>
+            <input id="qty600" type="number" min="0" step="1" value="" />
+            <p id="hint600" class="hint">1300×1300 대형 매트 장수를 입력합니다.</p>
+          </div>
+          <div class="field full">
+            <label for="qty1200Refurb">1200 TPU 리퍼브 장수</label>
+            <input id="qty1200Refurb" type="number" min="0" step="0.5" value="" />
+            <p class="hint">1200×1200 TPU 리퍼브 제품 장수를 입력합니다.</p>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <label class="check-label" for="optRoom">
+            <input id="optRoom" type="checkbox" />
+            방 추가(옵션)
+          </label>
+          <button id="btnAddRoom" class="secondary" type="button" disabled>방 추가</button>
+          <span id="roomCountText" class="hint">체크 시 방 이름과 600 사이즈 장수를 여러 개 추가할 수 있습니다. (현재 0개 / 최대 4개)</span>
+        </div>
+        <div id="roomList"></div>
+        <div class="actions">
+          <button id="generateBtn" type="button">견적 생성</button>
+          <button id="copyBtn" class="secondary" type="button">복사</button>
+          <button id="copyImageBtn" class="secondary" type="button">이미지 복사</button>
+          <button id="saveImageBtn" class="secondary" type="button">PNG 저장</button>
+          <button id="mobilePreviewBtn" class="secondary mobile-only" type="button">미리보기 보기</button>
+          <button id="resetBtn" class="secondary" type="button">초기화</button>
+        </div>
+      </section>
+
+      <section class="edit-section">
+        <h2>시공 범위 이미지</h2>
+        <div class="field">
+          <label for="planImage">이미지 업로드</label>
+          <input id="planImage" type="file" accept="image/*" />
+        </div>
+        <div class="plan-scale-control">
+          <div class="plan-scale-head">
+            <span>도면 크기</span>
+            <output id="planImageScaleValue" for="planImageScale">100%</output>
+          </div>
+          <input id="planImageScale" type="range" min="60" max="200" step="5" value="100" />
+        </div>
+        <div class="actions">
+          <button id="clearImage" class="secondary" type="button">이미지 제거</button>
+        </div>
+        <p class="hint">이미지를 넣으면 견적서 상단에 시공 범위 도면 영역이 표시됩니다.</p>
+      </section>
+
+      <section class="edit-section">
+        <h2>카톡용 출력</h2>
+        <textarea id="output" readonly></textarea>
+      </section>
+
+      <p id="status" class="status"></p>
+    </aside>
+
+    <section class="preview-shell" id="previewShell">
+    <article class="quote" id="quote">
+      <header class="quote-header">
+        <div class="logo-box">
+          <img src="./unomat-logo-transparent.png" alt="우노매트">
+        </div>
+        <div class="quote-head-copy">
+          <p class="quote-kicker">SAFE FLOOR BETTER LIFE</p>
+          <h1 class="quote-title">우노매트 <span class="title-accent">시공 견적서</span></h1>
+          <p class="quote-subtitle">무료 방문실측부터 대표 직접시공까지, 우리 집에 맞춘 예상 견적 안내</p>
+        </div>
+        <div class="quote-side">
+          <p class="quote-size-pill">1200 · 1300 TPU+PU 매트</p>
+          <img class="quote-hand-img" src="./unomat-hand-note.png" alt="아이와 가족이 안심하는 더 안전한 공간을 만듭니다.">
+        </div>
+      </header>
+
+      <section class="quote-section image-section" id="imageSection" hidden>
+        <h2 class="section-label">시공 범위 도면</h2>
+        <div class="plan-frame">
+          <img id="viewPlanImage" alt="시공 범위 이미지" />
+        </div>
+      </section>
+
+      <section class="quote-section customer-section">
+        <h2 class="section-label">고객 정보</h2>
+        <p class="customer-name" id="viewCustomerNameLine"></p>
+        <dl class="info-list">
+          <dt>고객명</dt><dd id="viewCustomerName"></dd>
+          <dt>연락처</dt><dd id="viewPhone"></dd>
+          <dt>주소</dt><dd id="viewAddress"></dd>
+          <dt>면적</dt><dd id="viewPyeong"></dd>
+          <dt>견적일</dt><dd id="viewQuoteDate"></dd>
+          <dt>시공 범위</dt><dd id="viewAreas"></dd>
+          <dt>시공 방식</dt><dd id="viewInstallMethod"></dd>
+        </dl>
+      </section>
+
+      <section class="quote-section">
+        <h2 class="section-label">제품별 견적 비교</h2>
+        <table class="estimate-table">
+          <thead>
+            <tr id="productHeader"></tr>
+          </thead>
+          <tbody id="estimateRows"></tbody>
+        </table>
+      </section>
+
+      <section class="quote-section room-estimate-section" id="roomEstimateSection" hidden>
+        <h2 class="section-label">방 추가 견적</h2>
+        <p class="room-estimate-note">방 추가 시 현장 구조와 생활 동선을 고려해 600 사이즈 전용 기준으로 예상 수량을 안내드립니다.</p>
+        <table class="estimate-table room-estimate-table">
+          <thead>
+            <tr>
+              <th>공간</th>
+              <th>600 사이즈<span>방 시공 전용</span></th>
+            </tr>
+          </thead>
+          <tbody id="roomEstimateRows"></tbody>
+        </table>
+      </section>
+
+      <section class="quote-section">
+        <h2 class="notice-title">안내</h2>
+        <div class="notice" id="viewNotice"></div>
+      </section>
+
+      <footer class="footer">
+        <span>unomat.co.kr · 010-9096-3365</span>
+      </footer>
+    </article>
+    </section>
+  </main>
+
+  <script src="./html2canvas.min.js"></script>
+  <script>
+    const PRODUCTS = [
+      { title: "[우노-101] TPU+PU", basis: "1300기준", code: "[우노-101]", material: "TPU+PU", size: "1300x1300x24T", qtyKey: "qty600", unitPrice: 139000 },
+      { title: "[우노-101] TPU+PU", basis: "1200기준", code: "[우노-101]", material: "TPU+PU", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 118000 },
+      { title: "[우노-101] TPU 리퍼브", basis: "1200기준", code: "[우노-101]", material: "TPU 리퍼브", size: "1200x1200x24T", qtyKey: "qty1200Refurb", unitPrice: 89000 },
+    ];
+
+    const ROOM_PRODUCTS = [
+      { title: "600 사이즈", size: "방 시공 전용 600 사이즈", unitPrice: 0 },
+    ];
+
+    let uploadedImageUrl = "";
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatWon(value) {
+      return `${Math.round(Number(value) || 0).toLocaleString("ko-KR")}원`;
+    }
+
+    function formatPriceValue(value, fallback = "금액 추후 입력") {
+      const number = Number(value);
+      return Number.isFinite(number) && number > 0 ? formatWon(number) : fallback;
+    }
+
+    function formatQty(qty) {
+      const value = Number(qty);
+      if (!Number.isFinite(value)) return "0장";
+      return `${Number.isInteger(value) ? value : value.toFixed(1)}장`;
+    }
+
+    function safeNum(value) {
+      const number = Number(value);
+      return Number.isFinite(number) && number > 0 ? number : 0;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function dateText(value) {
+      return value ? value.replaceAll("-", ".") : "";
+    }
+
+    function getProducts() {
+      return PRODUCTS;
+    }
+
+    function getAreas() {
+      const custom = $("areasCustom").value.trim();
+      const preset = $("areasPreset").value;
+      if (custom) return custom;
+      if (preset === "직접입력") return "";
+      return preset;
+    }
+
+    function getPyeongLine() {
+      const pyeongType = $("pyeongType").value.trim();
+      const extension = $("extension").value;
+      if (pyeongType && extension) return `${pyeongType} (${extension})`;
+      return pyeongType;
+    }
+
+    function getInstallMethod(areas) {
+      return "대표 직접 방문실측 · 직접시공";
+    }
+
+    function getServiceFeeNotice(areas) {
+      return "기본 시공비와 출장비가 포함된 기준이며, 특수 현장은 진행 전 별도 안내드립니다.";
+    }
+
+    function collectInput() {
+      return {
+        customerName: $("customerName").value.trim(),
+        phone: $("phone").value.trim() || "채팅문의",
+        address: $("address").value.trim(),
+        pyeongLine: getPyeongLine(),
+        areas: getAreas(),
+        qty1200: safeNum($("qty1200").value),
+        qty600: safeNum($("qty600").value),
+        qty1200Refurb: safeNum($("qty1200Refurb").value),
+        rooms: getRooms(),
+      };
+    }
+
+    function qtyFor(product, data) {
+      return safeNum(data[product.qtyKey]);
+    }
+
+    function productBaseTotal(product, data) {
+      return qtyFor(product, data) * product.unitPrice;
+    }
+
+    function productDiscount(product, data) {
+      return 0;
+    }
+
+    function productFinalTotal(product, data) {
+      return productBaseTotal(product, data) - productDiscount(product, data);
+    }
+
+    function getRoomProducts() {
+      return ROOM_PRODUCTS;
+    }
+
+    function roomProductTotal(room, product) {
+      return room.qty * product.unitPrice;
+    }
+
+    function renderRoomEstimate(data) {
+      const section = $("roomEstimateSection");
+      const rowsEl = $("roomEstimateRows");
+      const rooms = data.rooms || [];
+      const products = getRoomProducts();
+
+      if (!rooms.length || products.length < 1) {
+        section.hidden = true;
+        rowsEl.innerHTML = "";
+        return;
+      }
+
+      section.hidden = false;
+
+      const rows = rooms.map((room) => `
+        <tr>
+          <th>${escapeHtml(room.name)}<span>${formatQty(room.qty)}</span></th>
+          ${products.map((product) => `
+            <td>
+              <strong>${formatPriceValue(roomProductTotal(room, product), "금액 별도 안내")}</strong>
+              <span>${formatPriceValue(product.unitPrice, "단가 별도 안내")} × ${formatQty(room.qty)}</span>
+            </td>
+          `).join("")}
+        </tr>
+      `).join("");
+
+      const totalRow = `
+        <tr class="room-total-row">
+          <th>방 추가 합계</th>
+          ${products.map((product) => `
+            <td>${formatPriceValue(rooms.reduce((sum, room) => sum + roomProductTotal(room, product), 0), "금액 별도 안내")}</td>
+          `).join("")}
+        </tr>
+      `;
+
+      rowsEl.innerHTML = rows + totalRow;
+    }
+
+    function getRooms() {
+      if (!$("optRoom").checked) return [];
+      return Array.from(document.querySelectorAll(".room-item")).map((item, index) => {
+        const name = item.querySelector(".room-name").value.trim() || `방 ${index + 1}`;
+        const qty = safeNum(item.querySelector(".room-qty").value);
+        return { name, qty };
+      }).filter((room) => room.qty > 0);
+    }
+
+    function addRoom(name = "", qty = "") {
+      if (!$("optRoom").checked) return;
+      if ($("roomList").children.length >= 4) {
+        setStatus("방 추가는 최대 4개까지 가능합니다.");
+        updateRoomState();
+        return;
+      }
+      const item = document.createElement("div");
+      item.className = "room-item";
+      item.innerHTML = `
+        <div>
+          <label>방 이름</label>
+          <input class="room-name" value="${escapeHtml(name)}" placeholder="방" />
+        </div>
+        <div>
+          <label>600 장수</label>
+          <input class="room-qty" type="number" min="0" step="1" value="${escapeHtml(qty)}" />
+        </div>
+        <button class="secondary room-delete" type="button">삭제</button>
+      `;
+      item.querySelectorAll("input").forEach((input) => input.addEventListener("input", renderAll));
+      item.querySelector(".room-delete").addEventListener("click", () => {
+        item.remove();
+        updateRoomState();
+        renderAll();
+      });
+      $("roomList").appendChild(item);
+      updateRoomState();
+    }
+
+    function updateRoomState() {
+      const enabled = $("optRoom").checked;
+      const count = $("roomList").children.length;
+      $("btnAddRoom").disabled = !enabled || count >= 4;
+      $("roomCountText").textContent = `체크 시 방 이름과 600 사이즈 장수를 여러 개 추가할 수 있습니다. (현재 ${count}개 / 최대 4개)`;
+      if (!enabled) $("roomList").innerHTML = "";
+    }
+
+    function renderQuote(data) {
+      $("viewCustomerNameLine").textContent = data.customerName ? `${data.customerName} 고객님` : "고객님";
+      $("viewCustomerName").textContent = data.customerName ? `${data.customerName} 고객님` : "고객님";
+      $("viewPhone").textContent = data.phone;
+      $("viewAddress").textContent = data.address || "-";
+      $("viewPyeong").textContent = data.pyeongLine || "-";
+      $("viewQuoteDate").textContent = dateText($("quoteDate").value) || "-";
+      $("viewAreas").textContent = data.areas || "-";
+      $("viewInstallMethod").textContent = getInstallMethod(data.areas);
+
+      const products = getProducts();
+      $("productHeader").innerHTML = `
+        <th></th>
+        ${products.map((product) => `<th><span class="product-basis">${escapeHtml(product.basis)}</span><span class="product-code">${escapeHtml(product.code)}</span><span class="product-material">${escapeHtml(product.material)}</span><span>${escapeHtml(product.size)}</span></th>`).join("")}
+      `;
+
+      const row = (label, values, className = "") => `
+        <tr class="${className}">
+          <th>${label}</th>
+          ${values.map((value) => `<td>${value}</td>`).join("")}
+        </tr>
+      `;
+
+      $("estimateRows").innerHTML = [
+        row("장당금액", products.map((product) => formatPriceValue(product.unitPrice))),
+        row("예상장수", products.map((product) => formatQty(qtyFor(product, data)))),
+        row("상품금액", products.map((product) => formatPriceValue(productBaseTotal(product, data)))),
+        row("합계", products.map((product) => formatPriceValue(productFinalTotal(product, data))), "total-row"),
+      ].join("");
+
+      renderRoomEstimate(data);
+
+      $("viewNotice").innerHTML = `
+        <div class="notice-group">
+          <h3 class="notice-heading">기본 안내</h3>
+          <p>예상 수량은 다수의 시공 데이터와 온라인 도면을 기준으로 산출되며, <strong>실제 현장 구조에 따라 차이가 발생할 수 있습니다.</strong></p>
+          <p>최종 결제 금액은 <strong>시공 완료 후 실제 사용된 수량을 기준으로 확정</strong>됩니다.</p>
+          <p>상담부터 현장 실측 및 시공까지 <strong>우노매트에서 직접 진행</strong>합니다.</p>
+          <p>안내 금액에는 <strong>기본 시공비와 출장비가 포함</strong>되어 있습니다.</p>
+        </div>
+        <div class="notice-group">
+          <h3 class="notice-heading">결제 및 추가 비용</h3>
+          <p>공동구매는 <strong>3가구 이상 진행 시 가구당 10만원 할인</strong>이 적용됩니다.</p>
+          <p>안내 견적은 <strong>현금가 기준</strong>이며, 현금영수증·세금계산서·카드 결제 시 <strong>부가세 5%가 별도</strong>로 적용됩니다.</p>
+          <p>철거, 가구 이동, 장거리 지역 이동 등 <strong>추가 작업이 필요한 특수 현장</strong>은 시공 전 작업 조건과 <strong>추가 비용을 별도로 안내</strong>드립니다.</p>
+        </div>
+        <div class="notice-group promo">
+          <h3 class="notice-heading">프로모션 혜택</h3>
+          <p><strong>20장 이상 시공 시</strong> 현장 이벤트로 아이방 무료 시공 또는 <strong>30만원 할인</strong> 중 한 가지 혜택을 선택하실 수 있습니다.</p>
+          <p>추가로 <strong>당일 계약 10만원 할인</strong> + <strong>리뷰 2건 작성 10만원 할인</strong>이 적용됩니다.</p>
+          <p><strong>현금 할인 기준 최대 50만원까지</strong> 혜택을 받으실 수 있습니다.</p>
+        </div>
+      `;
+    }
+
+    function productBlock(product, data) {
+      const qty = qtyFor(product, data);
+      const total = productBaseTotal(product, data);
+      const space = [data.pyeongLine, data.areas].filter(Boolean).join(" ");
+      const eventLine = qty >= 20
+        ? "\n✔️런칭이벤트:\n아이방무료시공 or 30만원할인"
+        : "";
+      return `•${product.basis}
+${product.title}
+✔️${space || "시공 공간 확인 필요"}
+✔️매트사이즈: ${product.size}
+✔️예상장수: ${formatQty(qty)}
+✔️총금액: ${formatPriceValue(total)}${eventLine}`;
+    }
+
+    function buildKakaoText(data) {
+      const productBlocks = getProducts().map((product) => productBlock(product, data)).join("\n\n");
+      const roomBlocks = data.rooms.length > 0
+        ? `\n\n■ 방 추가 견적\n※ 방 추가 공간은 600 사이즈 전용 기준으로 안내드립니다.\n\n${data.rooms.map((room) => ROOM_PRODUCTS.map((product) => {
+            const total = room.qty * product.unitPrice;
+            return `[ ${room.name} - ${product.title} ]
+▫ 사이즈 : ${product.size}
+▫ 장당 금액 : ${formatPriceValue(product.unitPrice, "단가 별도 안내")}
+▫ 예상 수량 : ${formatQty(room.qty)}
+▫ 총 금액 : ${formatPriceValue(total, "금액 별도 안내")}`;
+          }).join("\n\n")).join("\n\n")}`
+        : "";
+
+      const benefitGuide = `📌상담 당일 계약 시 10만원 추가할인!
+📌시공비, 출장비 X
+📌공동구매특가 3집 이상 1가구당 10만원 할인!
+📌리뷰 1개당 5만원이며 최대 2개 10만원 페이백
+📌현금가 특가이며
+현금영수증/세금계산서/카드/부가세 5% 별도`;
+
+      const customerNameLine = data.customerName ? `${data.customerName} 님` : "고객님";
+
+      return `우노매트견적서입니다^^
+
+■ 고객 정보
+▫ 성함 : ${customerNameLine}
+▫ 연락처 : ${data.phone}
+▫ 주소지 : ${data.address}
+▫ 평형타입 : ${data.pyeongLine}
+▫ 시공공간 : ${data.areas}
+▫ 시공방식 : ${getInstallMethod(data.areas)}
+
+━━━━━━━━━━
+
+${productBlocks}${roomBlocks}
+
+━━━━━━━━━━
+
+■안내
+• 우노-101 단일색상
+• 화이트계열 아이보리색상
+• TPU+PU 결합상품으로 필름 2배 스크래치 및 복원력 향상
+• 황변억제+논슬립+방오쉴드
+• 1200/1300 사이즈 차이 이외 다른 차이 X
+• 1300매트의 장점: 복도 시공 시 1장으로 통시공, 중간 이음새 없이 깔끔합니다.
+• 방의 경우 600 사이즈로만 시공합니다.
+
+${benefitGuide}
+
+감사합니다:)`;
+    }
+
+    function renderAll() {
+      const data = collectInput();
+      renderQuote(data);
+      $("output").value = buildKakaoText(data);
+      const qty1200 = safeNum($("qty1200").value);
+      $("hint600").textContent = "1300×1300 대형 매트 장수를 입력합니다.";
+      updateRoomState();
+      requestAnimationFrame(updateMobilePreviewScale);
+    }
+
+    function updateMobilePreviewScale() {
+      const shell = $("previewShell");
+      const quote = $("quote");
+      if (!shell || !quote) return;
+      if (!window.matchMedia("(max-width: 760px)").matches) {
+        shell.style.height = "";
+        quote.style.removeProperty("--mobile-preview-scale");
+        return;
+      }
+      if (!shell.classList.contains("mobile-open")) return;
+      const availableWidth = Math.max(280, shell.clientWidth);
+      const scale = Math.min(1, availableWidth / 920);
+      quote.style.setProperty("--mobile-preview-scale", String(scale));
+      shell.style.height = `${Math.ceil(quote.offsetHeight * scale)}px`;
+    }
+
+    function toggleMobilePreview() {
+      const shell = $("previewShell");
+      const isOpen = shell.classList.toggle("mobile-open");
+      $("mobilePreviewBtn").textContent = isOpen ? "미리보기 닫기" : "미리보기 보기";
+      if (isOpen) requestAnimationFrame(updateMobilePreviewScale);
+    }
+
+    function handleImage(file) {
+      if (uploadedImageUrl) URL.revokeObjectURL(uploadedImageUrl);
+      if (!file) {
+        uploadedImageUrl = "";
+        $("imageSection").hidden = true;
+        $("viewPlanImage").removeAttribute("src");
+        return;
+      }
+      uploadedImageUrl = URL.createObjectURL(file);
+      $("viewPlanImage").src = uploadedImageUrl;
+      updatePlanImageScale();
+      $("imageSection").hidden = false;
+    }
+
+    function updatePlanImageScale() {
+      const value = Number($("planImageScale").value) || 100;
+      $("planImageScaleValue").textContent = `${value}%`;
+      $("viewPlanImage").style.transform = `scale(${value / 100})`;
+    }
+
+    async function copyOutput() {
+      try {
+        await navigator.clipboard.writeText($("output").value);
+        setStatus("카톡 문구를 복사했습니다.");
+      } catch {
+        $("output").focus();
+        $("output").select();
+        document.execCommand("copy");
+        setStatus("카톡 문구를 복사했습니다.");
+      }
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }
+
+    function getInlineStyleText() {
+      return Array.from(document.styleSheets).map((sheet) => {
+        try {
+          return Array.from(sheet.cssRules).map((rule) => rule.cssText).join("\n");
+        } catch {
+          return "";
+        }
+      }).join("\n");
+    }
+
+    function waitForNextPaint() {
+      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }
+
+    async function waitForQuoteReady(root) {
+      if (document.fonts?.ready) await document.fonts.ready;
+      await Promise.all(Array.from(root.querySelectorAll("img")).map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.addEventListener("load", resolve, { once: true });
+          img.addEventListener("error", resolve, { once: true });
+        });
+      }));
+      await waitForNextPaint();
+    }
+
+    async function captureQuoteCanvas(captureScale = 2) {
+      if (!window.html2canvas) throw new Error("이미지 변환 도구를 불러오지 못했습니다.");
+      const source = $("quote");
+      await waitForQuoteReady(source);
+      const host = document.createElement("div");
+      const captureQuote = source.cloneNode(true);
+      captureQuote.id = "quoteCapture";
+      Object.assign(host.style, {
+        position: "fixed",
+        left: "0",
+        top: "0",
+        zIndex: "2147483647",
+        width: "920px",
+        background: "#ffffff",
+        pointerEvents: "none",
+        overflow: "visible"
+      });
+      host.setAttribute("aria-hidden", "true");
+      Object.assign(captureQuote.style, {
+        width: "920px",
+        maxWidth: "none",
+        margin: "0",
+        transform: "none",
+        webkitTextSizeAdjust: "100%",
+        textSizeAdjust: "100%"
+      });
+      host.appendChild(captureQuote);
+      document.body.appendChild(host);
+      await waitForQuoteReady(captureQuote);
+
+      try {
+        const captureHeight = Math.ceil(captureQuote.scrollHeight);
+        return await html2canvas(captureQuote, {
+          backgroundColor: "#ffffff",
+          scale: captureScale,
+          width: 920,
+          height: captureHeight,
+          windowWidth: 1200,
+          windowHeight: Math.max(1400, captureHeight),
+          useCORS: true,
+          imageTimeout: 15000,
+          scrollX: 0,
+          scrollY: 0,
+          logging: false,
+          onclone: (clonedDocument) => {
+            const clonedQuote = clonedDocument.getElementById("quoteCapture");
+            if (!clonedQuote) return;
+            clonedQuote.style.width = "920px";
+            clonedQuote.style.maxWidth = "none";
+            clonedQuote.style.transform = "none";
+            clonedQuote.style.webkitTextSizeAdjust = "100%";
+            clonedQuote.style.textSizeAdjust = "100%";
+          }
+        });
+      } finally {
+        host.remove();
+      }
+    }
+
+    function dataUrlToBlob(dataUrl) {
+      const [meta, content] = dataUrl.split(",");
+      const mime = (meta.match(/data:([^;]+)/) || [])[1] || "image/png";
+      const binary = atob(content);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      return new Blob([bytes], { type: mime });
+    }
+
+    function canvasToPngBlob(canvas) {
+      return new Promise((resolve, reject) => {
+        const fromDataUrl = () => {
+          try {
+            resolve(dataUrlToBlob(canvas.toDataURL("image/png", 1)));
+          } catch (error) {
+            reject(error);
+          }
+        };
+        if (!canvas.toBlob) {
+          fromDataUrl();
+          return;
+        }
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else fromDataUrl();
+        }, "image/png", 1);
+      });
+    }
+
+    async function renderQuotePngBlob() {
+      let lastError = null;
+      for (const scale of [2, 1, 0.75]) {
+        try {
+          const canvas = await captureQuoteCanvas(scale);
+          return await canvasToPngBlob(canvas);
+        } catch (error) {
+          lastError = error;
+          console.warn(`PNG capture failed at scale ${scale}.`, error);
+        }
+      }
+      throw lastError || new Error("PNG 이미지 생성에 실패했습니다.");
+    }
+
+    window.renderQuotePngBlob = renderQuotePngBlob;
+
+    async function shareImageBlob(blob, fileName) {
+      if (!navigator.share || !navigator.canShare || typeof File === "undefined") return false;
+      const file = new File([blob], fileName, { type: "image/png" });
+      if (!navigator.canShare({ files: [file] })) return false;
+      try {
+        await navigator.share({ files: [file], title: "우노매트 견적서" });
+        return true;
+      } catch (error) {
+        console.warn("Image sharing unavailable", error);
+        return false;
+      }
+    }
+
+    function isAppleMobile() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+        || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    }
+
+    function isMobileDevice() {
+      return isAppleMobile() || /Android|Mobile/i.test(navigator.userAgent);
+    }
+
+    function openMobileImageWindow(targetWindow, blob, fileName) {
+      const url = URL.createObjectURL(blob);
+      const title = fileName.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const html = `<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${title}</title>
+  <style>
+    body{margin:0;padding:18px;background:#f6f8fb;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;color:#0f172a}
+    .bar{position:sticky;top:0;margin:-18px -18px 14px;padding:12px 16px;background:#fff;border-bottom:1px solid #dbe5ee;font-size:14px;line-height:1.5}
+    .bar b{display:block;margin-bottom:3px}
+    a{display:inline-block;margin-top:8px;padding:10px 12px;border-radius:8px;background:#0b5f89;color:#fff;text-decoration:none;font-weight:800}
+    img{display:block;width:100%;max-width:920px;height:auto;margin:0 auto;background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.12)}
+  </style>
+</head>
+<body>
+  <div class="bar"><b>PNG 이미지가 생성되었습니다.</b>이미지를 길게 눌러 저장하거나 아래 버튼으로 다운로드하세요.<br><a href="${url}" download="${title}">PNG 다운로드</a></div>
+  <img src="${url}" alt="우노매트 견적서">
+</body>
+</html>`;
+      const win = targetWindow && !targetWindow.closed ? targetWindow : window.open("", "_blank");
+      if (!win) {
+        URL.revokeObjectURL(url);
+        return false;
+      }
+      win.document.open();
+      win.document.write(html);
+      win.document.close();
+      win.focus();
+      setTimeout(() => URL.revokeObjectURL(url), 120000);
+      return true;
+    }
+
+    async function copyQuoteImage() {
+      renderAll();
+      $("copyImageBtn").disabled = true;
+      setStatus("견적서 이미지를 만드는 중입니다...");
+      const filename = `우노매트_견적서_${dateText($("quoteDate").value) || "image"}.png`;
+      const blobPromise = renderQuotePngBlob();
+
+      try {
+        if (navigator.clipboard && window.ClipboardItem) {
+          await navigator.clipboard.write([new ClipboardItem({ "image/png": blobPromise })]);
+          setStatus("견적서 이미지를 복사했습니다. 카톡/문자에 붙여넣을 수 있습니다.", 6000);
+          return;
+        }
+      } catch (error) {
+        console.warn("Clipboard image copy unavailable", error);
+      }
+
+      try {
+        const blob = await blobPromise;
+        if (await shareImageBlob(blob, filename)) {
+          setStatus("이미지 공유창을 열었습니다.", 6000);
+        } else if (isMobileDevice() && openMobileImageWindow(null, blob, filename)) {
+          setStatus("새 탭에서 이미지를 길게 눌러 저장해주세요.", 6000);
+        } else {
+          downloadBlob(blob, filename);
+          setStatus("이미지 복사가 제한되어 PNG 파일로 저장했습니다.", 6000);
+        }
+      } catch (error) {
+        console.error(error);
+        setStatus(`이미지 생성 실패: ${error?.message || "다시 시도해주세요."}`, 6000);
+      } finally {
+        $("copyImageBtn").disabled = false;
+      }
+    }
+
+    async function downloadQuoteImage() {
+      renderAll();
+      $("saveImageBtn").disabled = true;
+      setStatus("PNG 파일을 만드는 중입니다...");
+      const mobileSaveWindow = isMobileDevice() ? window.open("", "_blank") : null;
+      if (mobileSaveWindow) {
+        mobileSaveWindow.document.write("<!doctype html><meta charset=\"utf-8\"><body style=\"font-family:sans-serif;padding:20px\">PNG 이미지를 생성 중입니다...</body>");
+        mobileSaveWindow.document.close();
+      }
+
+      try {
+        const blob = await renderQuotePngBlob();
+        const filename = `우노매트_견적서_${dateText($("quoteDate").value) || "image"}.png`;
+        if (isMobileDevice() && await shareImageBlob(blob, filename)) {
+          if (mobileSaveWindow && !mobileSaveWindow.closed) mobileSaveWindow.close();
+          setStatus("공유 메뉴에서 저장 또는 공유를 선택해주세요.", 6000);
+          return;
+        }
+        if (isMobileDevice() && openMobileImageWindow(mobileSaveWindow, blob, filename)) {
+          setStatus("새 탭에서 이미지를 길게 눌러 저장해주세요.", 6000);
+          return;
+        }
+        downloadBlob(blob, filename);
+        setStatus("PNG 파일을 저장했습니다.", 6000);
+      } catch (error) {
+        if (mobileSaveWindow && !mobileSaveWindow.closed) mobileSaveWindow.close();
+        console.error(error);
+        setStatus(`PNG 저장 실패: ${error?.message || "다시 시도해주세요."}`, 6000);
+      } finally {
+        $("saveImageBtn").disabled = false;
+      }
+    }
+
+    function setStatus(message, duration = 2200) {
+      $("status").textContent = message;
+      setTimeout(() => {
+        if ($("status").textContent === message) $("status").textContent = "";
+      }, duration);
+    }
+
+    function todayDateValue() {
+      const today = new Date();
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    }
+
+    function initDate() {
+      $("quoteDate").value = todayDateValue();
+    }
+
+    function resetAll() {
+      $("customerName").value = "";
+      $("phone").value = "";
+      $("address").value = "";
+      $("pyeongType").value = "";
+      $("quoteDate").value = todayDateValue();
+      $("extension").value = "베란다 확장";
+      $("areasPreset").value = "";
+      $("areasCustom").value = "";
+      $("qty1200").value = "";
+      $("qty600").value = "";
+      $("qty1200Refurb").value = "";
+      $("optRoom").checked = false;
+      $("roomList").innerHTML = "";
+      $("planImage").value = "";
+      $("planImageScale").value = "100";
+      updatePlanImageScale();
+      handleImage(null);
+      updateRoomState();
+      renderAll();
+      setStatus("초기화했습니다.");
+    }
+
+    initDate();
+    document.querySelectorAll("input, select, textarea").forEach((input) => {
+      if (input.id !== "output" && input.id !== "planImage") {
+        input.addEventListener("input", renderAll);
+        input.addEventListener("change", renderAll);
+      }
+    });
+    $("optRoom").addEventListener("change", () => {
+      if ($("optRoom").checked && $("roomList").children.length === 0) {
+        addRoom();
+      } else {
+        updateRoomState();
+      }
+      renderAll();
+    });
+    $("btnAddRoom").addEventListener("click", () => {
+      addRoom();
+      renderAll();
+    });
+    $("generateBtn").addEventListener("click", () => {
+      renderAll();
+      setStatus("견적을 생성했습니다.");
+    });
+    $("planImage").addEventListener("change", (event) => handleImage(event.target.files[0]));
+    $("planImageScale").addEventListener("input", updatePlanImageScale);
+    $("clearImage").addEventListener("click", () => {
+      $("planImage").value = "";
+      handleImage(null);
+      setStatus("이미지를 제거했습니다.");
+    });
+    $("copyBtn").addEventListener("click", copyOutput);
+    $("copyImageBtn").addEventListener("click", copyQuoteImage);
+    $("saveImageBtn").addEventListener("click", () => {
+      setTimeout(downloadQuoteImage, 0);
+    });
+    $("mobilePreviewBtn").addEventListener("click", toggleMobilePreview);
+    window.addEventListener("resize", updateMobilePreviewScale);
+    $("resetBtn").addEventListener("click", resetAll);
+    renderAll();
+  </script>
+</body>
+</html>
+
