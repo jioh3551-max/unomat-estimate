@@ -2678,7 +2678,11 @@ ${benefitGuide}
     async function copyQuoteImage() {
       renderAll();
       const copyButton = $("copyImageBtn");
-      setButtonBusy(copyButton, true);
+      if (copyButton.dataset.busy === "true") {
+        setStatus("이미지 복사가 진행 중입니다. 잠시만 기다려주세요.", 3000);
+        return;
+      }
+      copyButton.dataset.busy = "true";
       setStatus("견적서 이미지를 만드는 중입니다...");
       const filename = `우노매트_견적서_${dateText($("quoteDate").value) || "image"}.png`;
       let blob = null;
@@ -2712,7 +2716,7 @@ ${benefitGuide}
         console.error(error);
         setStatus(`이미지 생성 실패: ${error?.message || "다시 시도해주세요."}`, 6000);
       } finally {
-        setButtonBusy(copyButton, false);
+        delete copyButton.dataset.busy;
       }
     }
 
