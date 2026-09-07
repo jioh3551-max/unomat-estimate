@@ -1941,11 +1941,6 @@
             <input id="qty600" type="number" min="0" step="1" value="" />
             <p id="hint600" class="hint">1300×1300 대형 매트 장수를 입력합니다.</p>
           </div>
-          <div class="field full">
-            <label for="qty1200Refurb">1200 TPU 리퍼브 장수</label>
-            <input id="qty1200Refurb" type="number" min="0" step="0.5" value="" />
-            <p class="hint">1200×1200 TPU 리퍼브 제품 장수를 입력합니다.</p>
-          </div>
         </div>
 
         <div class="option-row">
@@ -2073,7 +2068,7 @@
     const PRODUCTS = [
       { title: "[우노-101] TPU+PU", basis: "1300기준", code: "[우노-101]", material: "TPU+PU", size: "1300x1300x24T", qtyKey: "qty600", unitPrice: 139000 },
       { title: "[우노-101] TPU+PU", basis: "1200기준", code: "[우노-101]", material: "TPU+PU", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 118000 },
-      { title: "[우노-201~203] TPU 리퍼브", basis: "1200기준", code: "[우노-201~203]", material: "TPU 리퍼브", size: "1200x1200x24T", qtyKey: "qty1200Refurb", unitPrice: 89000 },
+      { title: "[우노-201~203] TPU 리퍼브", basis: "1200기준", code: "[우노-201~203]", material: "TPU 리퍼브", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 89000 },
     ];
 
     const ROOM_PRODUCTS = [
@@ -2153,7 +2148,6 @@
         areas: getAreas(),
         qty1200: safeNum($("qty1200").value),
         qty600: safeNum($("qty600").value),
-        qty1200Refurb: safeNum($("qty1200Refurb").value),
         rooms: getRooms(),
       };
     }
@@ -2774,7 +2768,6 @@ ${benefitGuide}
       $("areasCustom").value = "";
       $("qty1200").value = "";
       $("qty600").value = "";
-      $("qty1200Refurb").value = "";
       $("optRoom").checked = false;
       $("roomList").innerHTML = "";
       $("planImage").value = "";
