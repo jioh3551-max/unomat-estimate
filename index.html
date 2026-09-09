@@ -2066,9 +2066,9 @@
   <script src="./html2canvas.min.js"></script>
   <script>
     const PRODUCTS = [
-      { title: "[우노-101] TPU+PU", basis: "1300기준", code: "[우노-101]", material: "TPU+PU", size: "1300x1300x24T", qtyKey: "qty600", unitPrice: 139000 },
-      { title: "[우노-101] TPU+PU", basis: "1200기준", code: "[우노-101]", material: "TPU+PU", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 118000 },
-      { title: "[우노-201~203] TPU 리퍼브", basis: "1200기준", code: "[우노-201~203]", material: "TPU 리퍼브", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 89000 },
+      { title: "[우노-101] TPU+PU", basis: "1300기준", code: "[우노-101]", material: "TPU+PU", size: "1300x1300x24T", qtyKey: "qty600", unitPrice: 139000, promoEligible: true },
+      { title: "[우노-101] TPU+PU", basis: "1200기준", code: "[우노-101]", material: "TPU+PU", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 118000, promoEligible: true },
+      { title: "[우노-201~203] TPU 리퍼브", basis: "1200기준", code: "[우노-201~203]", material: "TPU 리퍼브", size: "1200x1200x24T", qtyKey: "qty1200", unitPrice: 89000, promoEligible: false },
     ];
 
     const ROOM_PRODUCTS = [
@@ -2309,7 +2309,7 @@
         </div>
         <div class="notice-group promo">
           <h3 class="notice-heading">프로모션 혜택</h3>
-          <p><strong>20장 이상 시공 시</strong> 현장 이벤트로 아이방 무료 시공 또는 <strong>30만원 할인</strong> 중 한 가지 혜택을 선택하실 수 있습니다.</p>
+          <p><strong>TPU+PU 20장 이상 시공 시</strong> 현장 이벤트로 아이방 무료 시공 또는 <strong>30만원 할인</strong> 중 한 가지 혜택을 선택하실 수 있습니다. <strong>TPU 리퍼브는 제외</strong>됩니다.</p>
           <p>추가로 <strong>당일 계약 10만원 할인</strong> + <strong>리뷰 1건당 5만원, 최대 2건 10만원 할인</strong>이 적용됩니다.</p>
           <p><strong>현금 할인 기준 최대 50만원까지</strong> 혜택을 받으실 수 있습니다.</p>
         </div>
@@ -2320,7 +2320,7 @@
       const qty = qtyFor(product, data);
       const total = productBaseTotal(product, data);
       const space = [data.pyeongLine, data.areas].filter(Boolean).join(" ");
-      const eventLine = qty >= 20
+      const eventLine = product.promoEligible !== false && qty >= 20
         ? "\n✔️런칭이벤트:\n아이방무료시공 or 30만원할인"
         : "";
       return `•${product.basis}
@@ -2348,6 +2348,7 @@ ${product.title}
 📌시공비, 출장비 X
 📌공동구매특가 3집 이상 1가구당 10만원 할인!
 📌리뷰 1건당 5만원, 최대 2건 10만원 페이백
+📌TPU 리퍼브는 아이방 무료시공 또는 30만원 할인 프로모션 제외
 📌현금가 특가이며
 현금영수증/세금계산서/카드/부가세 5% 별도`;
 
