@@ -2552,7 +2552,9 @@ ${benefitGuide}
       await waitForNextPaint();
     }
 
-    async function captureQuoteCanvas(captureScale = 2) {
+    const PNG_CAPTURE_SCALE = 3;
+
+    async function captureQuoteCanvas(captureScale = PNG_CAPTURE_SCALE) {
       if (!window.html2canvas) throw new Error("이미지 변환 도구를 불러오지 못했습니다.");
       const source = $("quote");
       await waitForQuoteReady(source);
@@ -2599,6 +2601,15 @@ ${benefitGuide}
           onclone: (clonedDocument) => {
             const clonedQuote = clonedDocument.getElementById("quoteCapture");
             if (!clonedQuote) return;
+            const captureStyle = clonedDocument.createElement("style");
+            captureStyle.textContent = `
+              #quoteCapture,
+              #quoteCapture * {
+                -webkit-font-smoothing: auto !important;
+                text-rendering: geometricPrecision !important;
+              }
+            `;
+            clonedDocument.head.appendChild(captureStyle);
             clonedQuote.style.width = "920px";
             clonedQuote.style.maxWidth = "none";
             clonedQuote.style.transform = "none";
@@ -2641,17 +2652,10 @@ ${benefitGuide}
     }
 
     async function renderQuotePngBlob() {
-      let lastError = null;
-      for (const scale of [2, 1, 0.75]) {
-        try {
-          const canvas = await captureQuoteCanvas(scale);
-          return await canvasToPngBlob(canvas);
-        } catch (error) {
-          lastError = error;
-          console.warn(`PNG capture failed at scale ${scale}.`, error);
-        }
-      }
-      throw lastError || new Error("PNG 이미지 생성에 실패했습니다.");
+      const canvas = await captureQuoteCanvas(PNG_CAPTURE_SCALE);
+      const blob = await canvasToPngBlob(canvas);
+      if (blob.type !== "image/png") throw new Error("PNG 형식으로 이미지를 만들지 못했습니다.");
+      return blob;
     }
 
     window.renderQuotePngBlob = renderQuotePngBlob;
