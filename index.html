@@ -2339,9 +2339,9 @@
           <p>철거, 가구 이동, 장거리 지역 이동 등 <strong>추가 작업이 필요한 특수 현장</strong>은 시공 전 작업 조건과 <strong>추가 비용을 별도로 안내</strong>드립니다.</p>
         </div>
         <div class="notice-group promo">
-          <h3 class="notice-heading">프로모션 혜택 · TPU+PU 시공 대상</h3>
-          <p><strong>20장 이상 시공</strong><br>기본 <strong>30만원 할인</strong><br>추가 할인 포함 <strong>최대 50만원</strong></p>
-          <p><strong>20장 미만 시공</strong><br>기본 <strong>10만원 할인</strong><br>추가 할인 포함 <strong>최대 30만원</strong></p>
+          <h3 class="notice-heading">10월 런칭 이벤트 · TPU+PU 시공 대상</h3>
+          <p><strong>22장 이상 시공</strong><br>기본 <strong>20만원 할인</strong><br>추가 할인 포함 <strong>최대 40만원</strong></p>
+          <p><strong>21장 이하 시공</strong><br>기본 <strong>10만원 할인</strong><br>추가 할인 포함 <strong>최대 30만원</strong></p>
           <p>추가 할인<br><strong>당일 계약 10만원 할인</strong><br>리뷰 <strong>1건당 5만원, 최대 2건 10만원 할인</strong></p>
           <p class="promo-room-benefit">아이방 <strong>50% 할인</strong> · 600 사이즈 <strong>장당 ${formatPriceValue(ROOM_PRODUCTS[0].childRoomPrice)}</strong></p>
           <small class="promo-note">당일 계약 및 리뷰 혜택은 기본 할인과 중복 적용 가능합니다. 최대 현금 할인액은 당일 계약 및 리뷰 2건 혜택을 모두 적용한 기준입니다.<br><strong>TPU 리퍼브는 프로모션 대상에서 제외</strong>되어 이벤트 혜택이 적용되지 않습니다.</small>
@@ -2356,9 +2356,9 @@
       const eventLine = product.promoEligible === false
         ? "\n※ TPU 리퍼브는 프로모션 대상에서 제외되어 이벤트 혜택이 적용되지 않습니다."
         : qty > 0
-          ? qty >= 20
-            ? "\n✔️런칭이벤트: 30만원 할인\n✔️당일 계약·리뷰 혜택 포함 현금 할인 최대 50만원"
-            : "\n✔️런칭이벤트: 10만원 할인\n✔️당일 계약·리뷰 혜택 포함 현금 할인 최대 30만원"
+          ? qty >= 22
+            ? "\n✔️10월 런칭이벤트: 20만원 할인\n✔️당일 계약·리뷰 혜택 포함 현금 할인 최대 40만원"
+            : "\n✔️10월 런칭이벤트: 10만원 할인\n✔️당일 계약·리뷰 혜택 포함 현금 할인 최대 30만원"
           : "";
       return `•${product.basis}
 ${product.title}
@@ -2383,9 +2383,9 @@ ${product.title}
 
       const benefitGuide = `📌시공비, 출장비 X
 📌공동구매특가 3집 이상 1가구당 10만원 할인!
-📌런칭 이벤트는 TPU+PU 제품 시공 시 적용됩니다.
-📌20장 이상: 기본 30만원 할인, 추가 혜택 포함 최대 50만원 할인
-📌20장 미만: 기본 10만원 할인, 추가 혜택 포함 최대 30만원 할인
+📌현재 런칭 이벤트는 TPU+PU 제품 시공 시 적용됩니다.
+📌22장 이상: 기본 20만원 할인, 추가 혜택 포함 최대 40만원 할인
+📌21장 이하: 기본 10만원 할인, 추가 혜택 포함 최대 30만원 할인
 📌상담 당일 계약 시 10만원 추가할인!
 📌리뷰 1건당 5만원, 최대 2건 10만원 페이백
 📌당일 계약 및 리뷰 혜택은 기본 할인과 중복 적용 가능합니다.
